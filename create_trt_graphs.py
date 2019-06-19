@@ -20,7 +20,8 @@ for MODEL in MODELS:
   CONFIG_FILE = MODEL + '.config'   # ./data/ssd_inception_v2_coco.config 
   CHECKPOINT_FILE = 'model.ckpt'    # ./data/ssd_inception_v2_coco/model.ckpt
   IMAGE_PATH = './data/huskies.jpg'
-  PRECISION = 'FP32'config_path, checkpoint_path = download_detection_model(MODEL, 'data')
+  PRECISION = 'FP32'
+  config_path, checkpoint_path = download_detection_model(MODEL, 'data')
   frozen_graph, input_names, output_names = build_detection_graph(
       config=config_path,
       checkpoint=checkpoint_path,
@@ -35,7 +36,7 @@ for MODEL in MODELS:
         outputs=output_names,
         max_batch_size=1,
         max_workspace_size_bytes=1 << 25,
-        precision_mode='FP32', # 'FP32', 'FP16', 'INT8'
+        precision_mode=PRECISION, # 'FP32', 'FP16', 'INT8'
         minimum_segment_size=5 # min num of nodes for a layer to be optimized. Smaller is better, but loosing precision.
     )
 
