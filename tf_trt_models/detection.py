@@ -53,21 +53,21 @@ MODELS = {
         'http://download.tensorflow.org/models/object_detection/ssd_inception_v2_coco_2018_01_28.tar.gz',
         'ssd_inception_v2_coco_2018_01_28',
     ),
-    'ssd_resnet_50_fpn_coco': DetectionModel(
-        'ssd_resnet_50_fpn_coco',
-        'http://download.tensorflow.org/models/object_detection/ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03.tar.gz',
-        'ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03',
-    ),
+    # 'ssd_resnet_50_fpn_coco': DetectionModel(
+    #     'ssd_resnet_50_fpn_coco',
+    #     'http://download.tensorflow.org/models/object_detection/ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03.tar.gz',
+    #     'ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03',
+    # ),
     'faster_rcnn_resnet50_coco': DetectionModel(
         'faster_rcnn_resnet50_coco',
         'http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet50_coco_2018_01_28.tar.gz',
         'faster_rcnn_resnet50_coco_2018_01_28',
     ),
-    'faster_rcnn_nas': DetectionModel(
-        'faster_rcnn_nas',
-        'http://download.tensorflow.org/models/object_detection/faster_rcnn_nas_coco_2018_01_28.tar.gz',
-        'faster_rcnn_nas_coco_2018_01_28',
-    ),
+    # 'faster_rcnn_nas': DetectionModel(
+    #     'faster_rcnn_nas',
+    #     'http://download.tensorflow.org/models/object_detection/faster_rcnn_nas_coco_2018_01_28.tar.gz',
+    #     'faster_rcnn_nas_coco_2018_01_28',
+    # ),
     'mask_rcnn_resnet50_atrous_coco': DetectionModel(
         'mask_rcnn_resnet50_atrous_coco',
         'http://download.tensorflow.org/models/object_detection/mask_rcnn_resnet50_atrous_coco_2018_01_28.tar.gz',
