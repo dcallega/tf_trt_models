@@ -12,9 +12,7 @@ import numpy as np
 import time
 from tf_trt_models.detection import download_detection_model, build_detection_graph, MODELS
 
-
-
-
+MODELS = ['ssd_mobilenet_v1_coco', 'ssdlite_mobilenet_v2_coco']
 for MODEL in MODELS:
   DATA_DIR = './data/'
   CONFIG_FILE = MODEL + '.config'   # ./data/ssd_inception_v2_coco.config 
