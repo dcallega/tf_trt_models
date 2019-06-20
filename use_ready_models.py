@@ -41,6 +41,7 @@ IMAGE_PATH = './data/huskies.jpg'
 # with open('./data/{}_{}.pb'.format(MODEL, PRECISION), 'wb') as f:
 #     f.write(trt_graph.SerializeToString())
 
+FILENAME = "ssd_mobilenet_v2_coco_FP32_trt.pb"
 
 def get_frozen_graph(graph_file):
     """Read Frozen Graph file from disk."""
@@ -52,7 +53,7 @@ def get_frozen_graph(graph_file):
 input_names = [INPUT_NAME]
 output_names = [BOXES_NAME, CLASSES_NAME, SCORES_NAME, NUM_DETECTIONS_NAME]
 
-trt_graph = get_frozen_graph("data/ssd_inception_v2_coco_trt.pb")
+trt_graph = get_frozen_graph("data/")
 tf_config = tf.ConfigProto()
 tf_config.gpu_options.allow_growth = True
 

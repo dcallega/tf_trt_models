@@ -22,21 +22,23 @@ BIN_PATH = 'tegrastats'
 LOG_FILE_PATH = 'LOGS.csv'
 
 
-def work(write_to_log=False, your_args=''):
-    """@:arg write_to_log """
-    global LOG_FILE
-    cmds = [BIN_PATH, "--interval",  "100"]
-    if your_args is None:
-      your_args = ''
-    # cmds += your_args.split()
+"""
+TODO: 1. extend to different format
+      2. recognize format automatically
+"""
+def tegrastats(log_file_path=None, freq=10, board="nano"):
+    """@:arg - log file name
+       @:arg - sampling frequency"""
+    cmds = ["tegrastats", "--interval",  str(int(1000/freq))]
+    if log_file_path is None:
+      log_file_path = "{}_parsed_tegrastats.csv".format(int(time.time()))
     p = subprocess.Popen(cmds, stdout=subprocess.PIPE)
-    if write_to_log:
-        LOG_FILE = open(LOG_FILE_PATH, 'a+')
-    while True:
+    try:
+      log_file = open(log_file_path, 'a+')
+      while True:
         current_stat = p.stdout.readline().decode().strip()
         if current_stat == '':
-            print("tegrastats error")
-            break
+          raise ValueError("Tegrastats error detected")
         fields = current_stat.split(" ")
         stats, others = {}, {}
         stats["ram_used"], stats["ram_tot"] = [int(e) for e in fields[1][:-2].split("/")]
@@ -44,14 +46,19 @@ def work(write_to_log=False, your_args=''):
         stats["avg_used"] = mean([perc/100. for perc, freq in others["cpu_perc_freq"]])
         stats["avg_freq"] = mean([freq for perc, freq in others["cpu_perc_freq"]])
         # Weighted average frequency
-        stats["w_avg_freq"] = mean([perc/100. *freq for perc, freq in others["cpu_perc_freq"]]) 
-        stats["emc"] = int(fields[7][:-1]) # ext_mem_contr_freq_perc_used
+        stats["w_avg_freq"] = mean([perc/100. *freq for perc, freq in others["cpu_perc_freq"]])
+        # External Memory Control Frequency percentage used
+        stats["emc"] = int(fields[7][:-1]) 
         stats["gpu_used"] = int(fields[9][:-1])
         for i in [16, 18, 20]:
           stats["pom_5v_{}".format(fields[i].split("_")[-1])] = int(fields[i+1].split("/")[0])
         text = str(time.time()) + "," + ",".join([str(stats[e]) for e in sorted(stats)])
         if write_to_log:
-            LOG_FILE.write(text + '\n')
+          log_file.write(text + '\n')
+    except Exception as e:
+      raise e
+    finally:
+      log_file.close()
 
 
 if __name__ == '__main__':
