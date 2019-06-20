@@ -16,7 +16,7 @@ def exit_pro(signum, frame):
 signal.signal(signal.SIGINT, exit_pro)
 signal.signal(signal.SIGTERM, exit_pro)
 # where the tegrastats binary file is
-BIN_PATH = 'tegrastats'
+BIN_PATH = '$HOME/tegrastats'
 LOG_FILE_PATH = './freq.log'
 
 
@@ -26,7 +26,7 @@ def work(write_to_log=False, your_args=''):
     cmds = [BIN_PATH]
     if your_args is None:
       your_args = ''
-    cmds += your_args.split()
+    # cmds += your_args.split()
     p = subprocess.Popen(cmds, stdout=subprocess.PIPE)
     if write_to_log:
         LOG_FILE = open(LOG_FILE_PATH, 'a')
