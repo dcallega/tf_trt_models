@@ -2,6 +2,7 @@ import argparse
 import signal
 import subprocess
 import time
+from statistics import mean
 
 LOG_FILE = None
 
@@ -35,8 +36,18 @@ def work(write_to_log=False, your_args=''):
         if current_stat == '':
             print("tegrastats error")
             break
-        text = "%s:\n%s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), current_stat)
-        print(text)
+        fields = current_stat.split(" ")
+        stats = {}
+        stats["ram_used"], stats["ram_tot"] = [int(e) for e in fields[1][:-2].split("/")]
+        others["cpu_perc_freq"] = [[int(e.split("%@")[0]), int(e.split("%@")[1])] for e in fields[5][1:-1].split(",")]
+        stats["avg_used"] = mean([perc/100. for perc, freq in others["cpu_perc_freq"]])
+        stats["avg_freq"] = mean([freq for perc, freq in stats["cpu_perc_freq"]])
+        # Weighted average frequency
+        stats["w_avg_freq"] = mean([perc/100. *freq for perc, freq in stats["cpu_perc_freq"]]) 
+        stats["emc"] = int(fields[7][:-1]) # ext_mem_contr_freq_perc_used
+        stats["gpu_used"] = int(fields[9][:-1])
+        [stats["pom_5v_{}".format(fields[i].split("_")[-1])] = int(fields[i+1].split("/")[0]) for i in [16, 18, 20]]
+        text = ",".join(stats[e] for e in sorted(stats))
         if write_to_log:
             LOG_FILE.write(text + '\n')
 
