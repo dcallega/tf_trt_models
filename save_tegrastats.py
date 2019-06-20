@@ -24,6 +24,8 @@ def work(write_to_log=False, your_args=''):
     """@:arg write_to_log """
     global LOG_FILE
     cmds = [BIN_PATH]
+    if your_args is None:
+      your_args = ''
     cmds += your_args.split()
     p = subprocess.Popen(cmds, stdout=subprocess.PIPE)
     if write_to_log:
