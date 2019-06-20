@@ -16,7 +16,7 @@ def exit_pro(signum, frame):
 signal.signal(signal.SIGINT, exit_pro)
 signal.signal(signal.SIGTERM, exit_pro)
 # where the tegrastats binary file is
-BIN_PATH = '$HOME/tegrastats'
+BIN_PATH = '../../tegrastats'
 LOG_FILE_PATH = './freq.log'
 
 
