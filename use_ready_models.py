@@ -18,7 +18,7 @@ from tf_trt_models.detection import *
 #CHECKPOINT_FILE = 'model.ckpt'    # ./data/ssd_inception_v2_coco/model.ckpt
 IMAGE_PATH = './data/huskies.jpg'
 
-FILENAME = "ssd_mobilenet_v2_coco_FP32_trt.pb"
+FILENAME = "ssd_mobilenet_v2_coco_FP32_50_trt.pb"
 
 def get_frozen_graph(graph_file):
     """Read Frozen Graph file from disk."""
