@@ -30,13 +30,13 @@ def get_frozen_graph(graph_file):
 input_names = [INPUT_NAME]
 output_names = [BOXES_NAME, CLASSES_NAME, SCORES_NAME, NUM_DETECTIONS_NAME]
 
-trt_graph = get_frozen_graph("data/{}".format(FILENAME))
+trt_graph_def = get_frozen_graph("data/{}".format(FILENAME))
 tf_config = tf.ConfigProto()
 tf_config.gpu_options.allow_growth = True
+trt_graph = tf.import_graph_def(trt_graph_def, name='')
 
 tf_sess = tf.Session(graph=trt_graph, config=tf_config)
 
-# tf.import_graph_def(, name='')
 
 print("Session ready")
 
