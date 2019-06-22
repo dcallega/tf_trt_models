@@ -23,6 +23,7 @@ for MODEL in MODELS:
   frozen_graph, input_names, output_names = build_detection_graph(
       config=config_path,
       checkpoint=checkpoint_path,
+      input_shape=(1,3,300,300),
       score_threshold=0.3,
       batch_size=1
   )

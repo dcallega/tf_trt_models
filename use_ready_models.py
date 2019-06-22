@@ -12,34 +12,10 @@ import numpy as np
 import time
 from tf_trt_models.detection import *
 
-MODELS = ['ssdlite_mobilenet_v2_coco']
-MODEL = MODELS[0]
 DATA_DIR = './data/'
 CONFIG_FILE = MODEL + '.config'   # ./data/ssd_inception_v2_coco.config 
 CHECKPOINT_FILE = 'model.ckpt'    # ./data/ssd_inception_v2_coco/model.ckpt
 IMAGE_PATH = './data/huskies.jpg'
-
-# config_path, checkpoint_path = download_detection_model(MODEL, 'data')
-# frozen_graph, input_names, output_names = build_detection_graph(
-#     config=config_path,
-#     checkpoint=checkpoint_path,
-#     score_threshold=0.3,
-#     batch_size=1
-# )
-
-# print(output_names)
-
-# trt_graph = trt.create_inference_graph(
-#     input_graph_def=frozen_graph,
-#     outputs=output_names,
-#     max_batch_size=1,
-#     max_workspace_size_bytes=1 << 25,
-#     precision_mode=PRECISION,
-#     minimum_segment_size=5
-# )
-
-# with open('./data/{}_{}.pb'.format(MODEL, PRECISION), 'wb') as f:
-#     f.write(trt_graph.SerializeToString())
 
 FILENAME = "ssd_mobilenet_v2_coco_FP32_trt.pb"
 
@@ -53,13 +29,13 @@ def get_frozen_graph(graph_file):
 input_names = [INPUT_NAME]
 output_names = [BOXES_NAME, CLASSES_NAME, SCORES_NAME, NUM_DETECTIONS_NAME]
 
-trt_graph = get_frozen_graph("data/")
+trt_graph = get_frozen_graph("data/{}".format(FILENAME))
 tf_config = tf.ConfigProto()
 tf_config.gpu_options.allow_growth = True
 
-tf_sess = tf.Session(config=tf_config)
+tf_sess = tf.Session(graph=trt_graph, config=tf_config)
 
-tf.import_graph_def(trt_graph, name='')
+# tf.import_graph_def(, name='')
 
 print("Session ready")
 
