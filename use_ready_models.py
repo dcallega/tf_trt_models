@@ -12,9 +12,10 @@ import numpy as np
 import time
 from tf_trt_models.detection import *
 
-DATA_DIR = './data/'
-CONFIG_FILE = MODEL + '.config'   # ./data/ssd_inception_v2_coco.config 
-CHECKPOINT_FILE = 'model.ckpt'    # ./data/ssd_inception_v2_coco/model.ckpt
+
+#DATA_DIR = './data/'
+#CONFIG_FILE = MODEL + '.config'   # ./data/ssd_inception_v2_coco.config 
+#CHECKPOINT_FILE = 'model.ckpt'    # ./data/ssd_inception_v2_coco/model.ckpt
 IMAGE_PATH = './data/huskies.jpg'
 
 FILENAME = "ssd_mobilenet_v2_coco_FP32_trt.pb"
