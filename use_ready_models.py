@@ -20,23 +20,22 @@ IMAGE_PATH = './data/huskies.jpg'
 
 FILENAME = "ssdlite_mobilenet_v2_coco_FP32_50_trt.pb"
 
-def get_frozen_graph(graph_file):
-    """Read Frozen Graph file from disk."""
-    with tf.gfile.GFile(graph_file, "rb") as f:
-        graph_def = tf.GraphDef()
-        graph_def.ParseFromString(f.read())
-    return graph_def
+def load_model_opt(self, filename):
+  graph_def = None
+  with tf.gfile.GFile("data/{}".format(filename), "rb") as f:
+    graph_def = tf.GraphDef()
+    graph_def.ParseFromString(f.read())
+    tf_graph = tf.import_graph_def(graph_def, name='')
+    return tf_graph
+
+tf_config = tf.ConfigProto()
+tf_config.gpu_options.allow_growth = True
+graph = load_model_opt(FILENAME)
+tf_sess = tf.Session(graph=trt_graph, config=tf_config)
+
 
 input_names = [INPUT_NAME]
 output_names = [BOXES_NAME, CLASSES_NAME, SCORES_NAME, NUM_DETECTIONS_NAME]
-
-trt_graph_def = get_frozen_graph("data/{}".format(FILENAME))
-tf_config = tf.ConfigProto()
-tf_config.gpu_options.allow_growth = True
-trt_graph = tf.import_graph_def(trt_graph_def, name='')
-
-tf_sess = tf.Session(graph=trt_graph, config=tf_config)
-
 
 print("Session ready")
 
