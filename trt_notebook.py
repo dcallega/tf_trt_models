@@ -28,17 +28,19 @@ frozen_graph, input_names, output_names = build_detection_graph(
 )
 
 print(output_names)
-
+PRECISION = 'FP32'
+max_workspace = 26
+min_segment_size = 50
 trt_graph = trt.create_inference_graph(
     input_graph_def=frozen_graph,
     outputs=output_names,
     max_batch_size=1,
-    max_workspace_size_bytes=1 << 25,
-    precision_mode='FP16',
-    minimum_segment_size=50
+    max_workspace_size_bytes=1 << max_workspace,
+    precision_mode=PRECISION,
+    minimum_segment_size=min_segment_size
 )
 
-with open('./data/ssd_inception_v2_coco_trt.pb', 'wb') as f:
+with open('./data/{}_{}_{}_{}_trt.pb'.format(MODEL, PRECISION, max_workspace, min_segment_size), 'wb') as f:
     f.write(trt_graph.SerializeToString())
 
 tf_config = tf.ConfigProto()

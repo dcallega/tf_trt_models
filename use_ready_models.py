@@ -18,11 +18,12 @@ from tf_trt_models.detection import *
 #CHECKPOINT_FILE = 'model.ckpt'    # ./data/ssd_inception_v2_coco/model.ckpt
 IMAGE_PATH = './data/huskies.jpg'
 
-FILENAME = "ssdlite_mobilenet_v2_coco_FP32_50_trt.pb"
+FILENAME = "data/ssdlite_mobilenet_v2_coco_FP32_50_trt.pb"
+FILENAME = "data/ssd_mobilenet_v1_coco_FP32_26_trt.pb"
 
-def load_model_opt(self, filename):
+def load_model_opt(filename):
   graph_def = None
-  with tf.gfile.GFile("data/{}".format(filename), "rb") as f:
+  with tf.gfile.GFile("{}".format(filename), "rb") as f:
     graph_def = tf.GraphDef()
     graph_def.ParseFromString(f.read())
     tf_graph = tf.import_graph_def(graph_def, name='')
@@ -30,7 +31,7 @@ def load_model_opt(self, filename):
 
 tf_config = tf.ConfigProto()
 tf_config.gpu_options.allow_growth = True
-graph = load_model_opt(FILENAME)
+trt_graph = load_model_opt(FILENAME)
 tf_sess = tf.Session(graph=trt_graph, config=tf_config)
 
 
